@@ -77,3 +77,20 @@ To learn more about React Native, take a look at the following resources:
 - [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
 - [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
 - [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+## 👨‍💻 Contributors
+
+- **Ahsan Ikram** – Backend Developer & AI Integration
+
+
+## 📄 License
+
+This project is part of an academic final year project and is not licensed for commercial use. Contact the author for more information.
+
+---
+
+## 📬 Contact
+
+Have questions or suggestions?
+
+- Email: ahsanikramn231@gmail.com
+- GitHub: [AhsanIkram231](https://github.com/AhsanIkram231)
