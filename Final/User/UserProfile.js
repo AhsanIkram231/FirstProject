@@ -44,6 +44,7 @@ const UserProfile = ({ route }) => {
                     <Text style={styles.label}>🏙️ City:</Text>
                     <Text style={styles.value}>{user.city_Name ? user.city_Name : "Rawalpindi"}</Text>
                 </View> */}
+                
             </View>
 
 
