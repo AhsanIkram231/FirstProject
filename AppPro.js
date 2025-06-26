@@ -104,6 +104,8 @@ import LinkNakaWithNaka from './Final/LinkNakaWithNaka';
 
 import UserDashboard from './Final/User/UserDashboard';
 import UserProfile from './Final/User/UserProfile';
+import ViewChallans from './Final/User/ViewChallans';
+import UserNotification from './Final/User/UserNotification';
 
 
 const Stack = createStackNavigator();
@@ -377,6 +379,9 @@ const AppPro = () => {
         />
 
 
+
+
+
         <Stack.Screen
           name="UserDashboard"
           component={UserDashboard}
@@ -386,6 +391,16 @@ const AppPro = () => {
           name="UserProfile"
           component={UserProfile}
           options={{ title: 'User Profile', headerShown: false }}
+        />
+        <Stack.Screen
+          name="UserNotification"
+          component={UserNotification}
+          options={{ title: 'User Notification', headerShown: false }}
+        />
+        <Stack.Screen
+          name="ViewChallans"
+          component={ViewChallans}
+          options={{ title: 'View Challans', headerShown: false }}
         />
       </Stack.Navigator>
     </NavigationContainer>

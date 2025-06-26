@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 const UserProfile = ({ route }) => {
-    const { admin } = route.params;             // same key everywhere
+    const { user } = route.params;             // same key everywhere
     const navigation = useNavigation();
 
     return (
@@ -22,28 +22,28 @@ const UserProfile = ({ route }) => {
             <View style={styles.profileCard}>
                 <View style={styles.row}>
                     <Text style={styles.label}>👤 Name:</Text>
-                    <Text style={styles.value}>{admin.name ? admin.name : 'Admin'}</Text>
+                    <Text style={styles.value}>{user.name ? user.name : 'User'}</Text>
                 </View>
-                <View style={styles.row}>
+                {/* <View style={styles.row}>
                     <Text style={styles.label}>🎖 Badge Number:</Text>
-                    <Text style={styles.value}>{admin.badge_number ? admin.badge_number : "WR-0001"}</Text>
-                </View>
+                    <Text style={styles.value}>{user.badge_number ? user.badge_number : "WR-0001"}</Text>
+                </View> */}
                 <View style={styles.row}>
                     <Text style={styles.label}>🆔 CNIC:</Text>
-                    <Text style={styles.value}>{admin.cnic ? admin.cnic : "37405"}</Text>
+                    <Text style={styles.value}>{user.cnic ? user.cnic : "37405"}</Text>
                 </View>
                 <View style={styles.row}>
                     <Text style={styles.label}>✉️ Email:</Text>
-                    <Text style={styles.value}>{admin.email ? admin.email : "abc@gmail.com"}</Text>
+                    <Text style={styles.value}>{user.email ? user.email : "abc@gmail.com"}</Text>
                 </View>
                 <View style={styles.row}>
                     <Text style={styles.label}>📞 Mobile:</Text>
-                    <Text style={styles.value}>{admin.mobile_number ? admin.mobile_number : "03369479101"}</Text>
+                    <Text style={styles.value}>{user.mobilenumber ? user.mobilenumber : "0336947901"}</Text>
                 </View>
-                <View style={styles.row}>
+                {/* <View style={styles.row}>
                     <Text style={styles.label}>🏙️ City:</Text>
-                    <Text style={styles.value}>{admin.city_Name ? admin.city_Name : "Rawalpindi"}</Text>
-                </View>
+                    <Text style={styles.value}>{user.city_Name ? user.city_Name : "Rawalpindi"}</Text>
+                </View> */}
             </View>
 
 

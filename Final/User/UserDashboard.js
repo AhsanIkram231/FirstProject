@@ -87,7 +87,7 @@ const UserDashboard = () => {
         <Text style={styles.linkText}>View Details</Text>
       </View>
 
-      <TouchableOpacity style={styles.button} onPress={() => alert('View Challans pressed')}>
+      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('ViewChallans', { userId })}>
         <Text style={styles.buttonText}>View Challans</Text>
       </TouchableOpacity>
 
@@ -103,12 +103,12 @@ const UserDashboard = () => {
         <Text style={styles.navText}>Home</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.navItem} onPress={() => alert('Notifications pressed')}>
+      <TouchableOpacity style={styles.navItem} onPress={() => navigation.navigate('UserNotification', { user })}>
         <Text style={styles.navIcon}>🔔</Text>
         <Text style={styles.navText}>Notifications</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.navItem} onPress={() => navigation.navigate('UserProfile', { admin: user })}>
+      <TouchableOpacity style={styles.navItem} onPress={() => navigation.navigate('UserProfile', { user })}>
         <Text style={styles.navIcon}>👤</Text>
         <Text style={styles.navText}>Profile</Text>
       </TouchableOpacity>
