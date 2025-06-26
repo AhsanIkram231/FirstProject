@@ -29,7 +29,8 @@ const SignUpScreen = () => {
     name: fullName,
     email: email,
     cnic: cnic,
-    mobilenumber: mobileNumber
+    mobilenumber: mobileNumber,
+    password:password
   };
 
   try {

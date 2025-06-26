@@ -62,6 +62,7 @@ const ViewDetails = ({ route, navigation }) => {
       />
     </View>
   ))}
+  
 </ScrollView>
 
 )}
@@ -74,7 +75,16 @@ const ViewDetails = ({ route, navigation }) => {
       >
         <Text style={styles.createButtonText}>Create Challan</Text>
       </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.createButton}
+        onPress={() => navigation.navigate('CreateChallan', { violation, WardenID })}
+        
+      >
+        <Text style={styles.createButtonText}>Notify Link Naka</Text>
+      </TouchableOpacity>
+      
     </ScrollView>
+    
   );
 };
 

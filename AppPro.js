@@ -111,7 +111,7 @@ const Stack = createStackNavigator();
 
 const AppPro = () => {
 
-  var fipAdd = '192.168.118.34:4321';
+  var fipAdd = '192.168.100.9:4321';
   global.furl = `http://${fipAdd}/`
   return (
     <NavigationContainer>

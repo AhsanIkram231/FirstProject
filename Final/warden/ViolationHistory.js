@@ -34,64 +34,64 @@ const ViolationHistory = ({ route, navigation }) => {
         applyFilters();
     }, [searchText, selectedStatus, selectedViolationType, fromDate, toDate, violations]);
 
-    // const fetchViolations = async () => {
-    //     setLoading(true);
-    //     try {
-    //         const res = await fetch(`${global.furl}getviolationsrecord_for_nakaid`, {
-    //             method: 'POST',
-    //             headers: { 'Content-Type': 'application/json' },
-    //             body: JSON.stringify({ chowki_id }),
-    //         });
-
-    //         const data = await res.json();
-    //         if (data.error || data.message === 'No violation records found.') {
-    //             Alert.alert('Info', data.error || data.message);
-    //             setViolations([]);
-    //         } else {
-    //             setViolations(data.violation_histories || []);
-    //             const types = new Set();
-    //             data.violation_histories?.forEach(item =>
-    //                 item.violation_details?.forEach(v => types.add(v.violation_name))
-    //             );
-    //             setAllViolationTypes(['All', ...Array.from(types)]);
-    //         }
-    //     } catch (err) {
-    //         Alert.alert('Error', err.message || 'Failed to fetch data');
-    //     } finally {
-    //         setLoading(false);
-    //     }
-    // };
-
     const fetchViolations = async () => {
-    setLoading(true);
-    try {
-        const res = await fetch(`${global.furl}getviolationsrecord_for_nakaid`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ chowki_id }),
-        });
+        setLoading(true);
+        try {
+            const res = await fetch(`${global.furl}getviolationsrecord_for_nakaid`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ chowki_id }),
+            });
 
-        const data = await res.json();
-        if (data.error || data.message === 'No violation records found.') {
-            Alert.alert('Info', data.error || data.message);
-            setViolations([]);
-        } else {
-            const sortedData = (data.violation_histories || []).sort(
-                (a, b) => new Date(b.violation_datetime) - new Date(a.violation_datetime)
-            );
-            setViolations(sortedData);
-            const types = new Set();
-            sortedData.forEach(item =>
-                item.violation_details?.forEach(v => types.add(v.violation_name))
-            );
-            setAllViolationTypes(['All', ...Array.from(types)]);
+            const data = await res.json();
+            if (data.error || data.message === 'No violation records found.') {
+                Alert.alert('Info', data.error || data.message);
+                setViolations([]);
+            } else {
+                setViolations(data.violation_histories || []);
+                const types = new Set();
+                data.violation_histories?.forEach(item =>
+                    item.violation_details?.forEach(v => types.add(v.violation_name))
+                );
+                setAllViolationTypes(['All', ...Array.from(types)]);
+            }
+        } catch (err) {
+            Alert.alert('Error', err.message || 'Failed to fetch data');
+        } finally {
+            setLoading(false);
         }
-    } catch (err) {
-        Alert.alert('Error', err.message || 'Failed to fetch data');
-    } finally {
-        setLoading(false);
-    }
-};
+    };
+
+//     const fetchViolations = async () => {
+//     setLoading(true);
+//     try {
+//         const res = await fetch(`${global.furl}getviolationsrecord_for_nakaid`, {
+//             method: 'POST',
+//             headers: { 'Content-Type': 'application/json' },
+//             body: JSON.stringify({ chowki_id }),
+//         });
+
+//         const data = await res.json();
+//         if (data.error || data.message === 'No violation records found.') {
+//             Alert.alert('Info', data.error || data.message);
+//             setViolations([]);
+//         } else {
+//             const sortedData = (data.violation_histories || []).sort(
+//                 (a, b) => new Date(b.violation_datetime) - new Date(a.violation_datetime)
+//             );
+//             setViolations(sortedData);
+//             const types = new Set();
+//             sortedData.forEach(item =>
+//                 item.violation_details?.forEach(v => types.add(v.violation_name))
+//             );
+//             setAllViolationTypes(['All', ...Array.from(types)]);
+//         }
+//     } catch (err) {
+//         Alert.alert('Error', err.message || 'Failed to fetch data');
+//     } finally {
+//         setLoading(false);
+//     }
+// };
 
 
     const applyFilters = () => {
