@@ -106,6 +106,7 @@ import UserDashboard from './Final/User/UserDashboard';
 import UserProfile from './Final/User/UserProfile';
 import ViewChallans from './Final/User/ViewChallans';
 import UserNotification from './Final/User/UserNotification';
+import TrafficRules from './Final/User/TrafficRules';
 
 
 const Stack = createStackNavigator();
@@ -396,6 +397,11 @@ const AppPro = () => {
           name="UserNotification"
           component={UserNotification}
           options={{ title: 'User Notification', headerShown: false }}
+        />
+        <Stack.Screen
+          name="TrafficRules"
+          component={TrafficRules}
+          options={{ title: 'TrafficRules', headerShown: false }}
         />
         <Stack.Screen
           name="ViewChallans"

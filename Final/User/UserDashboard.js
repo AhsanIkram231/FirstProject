@@ -91,7 +91,7 @@ const UserDashboard = () => {
         <Text style={styles.buttonText}>View Challans</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.button} onPress={() => alert('Traffic Rules pressed')}>
+      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('TrafficRules')}>
         <Text style={styles.buttonText}>View Traffic Rules</Text>
       </TouchableOpacity>
     </ScrollView>
