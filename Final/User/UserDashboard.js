@@ -53,7 +53,7 @@ const UserDashboard = () => {
       const data = await response.json();
       if (response.ok) {
         setTotalViolations(data.length);
-        const fine = data.reduce((sum, challan) => sum + challan.fine_amount, 0);
+        const fine = data.reduce((sum, challan) => sum + Number(challan.fine_amount), 0);
         setTotalFine(fine);
       } else {
         alert(data.error || 'Failed to load challans');
@@ -89,7 +89,13 @@ const UserDashboard = () => {
               <Text style={styles.redText}>{String(totalViolations).padStart(2, '0')}</Text>
             </Text>
           </View>
-          <TextInput style={styles.input} editable={false} value={`${totalFine} PKR`} />
+          <TextInput
+            style={styles.input}
+            editable={false}
+            value={`${Number(totalFine).toFixed(2)} PKR`}
+
+          />
+
           <Text style={styles.linkText} onPress={() => navigation.navigate('ViewChallans', { user })}
           >View Details</Text>
         </View>
