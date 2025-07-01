@@ -4,7 +4,7 @@ import { useRoute } from '@react-navigation/native';
 
 const ViewChallans = () => {
   const route = useRoute();
-  const { userId } = route.params;
+  const { user } = route.params;
 
   const [challans, setChallans] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -18,7 +18,7 @@ const ViewChallans = () => {
       const response = await fetch(`${global.furl}getchallans`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ user_id: userId })
+        body: JSON.stringify({ violator_cnic: user.cnic })
       });
 
       const data = await response.json();
@@ -36,7 +36,7 @@ const ViewChallans = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Challans</Text>
+      <Text style={styles.title}>Challan History</Text>
       {loading ? (
         <ActivityIndicator size="large" color="#009688" />
       ) : (
