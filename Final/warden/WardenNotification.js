@@ -14,28 +14,57 @@ const WardenNotification = ({ navigation, route }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch(`${global.furl}getnotifications`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        recipient_type: 'TrafficWarden',
-        recipient_id: wardenId,
-      }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
+    const fetchNotifications = async () => {
+      try {
+        const res = await fetch(`${global.furl}getnotifications`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            recipient_type: 'TrafficWarden',
+            recipient_id: wardenId,
+          }),
+        });
+
+        const data = await res.json();
+
         if (Array.isArray(data)) {
           setNotifications(data);
+
+          // Mark unread after 2 seconds
+          setTimeout(() => markAllAsRead(data), 2000);
         } else {
           console.error('Unexpected response format:', data);
         }
+      } catch (err) {
+        console.error('Failed to fetch notifications:', err);
+      } finally {
         setLoading(false);
-      })
-      .catch((error) => {
-        console.error('Failed to fetch notifications:', error);
-        setLoading(false);
-      });
-  }, []);
+      }
+    };
+
+    fetchNotifications();
+  }, [wardenId]);
+
+  const markAllAsRead = async (data) => {
+    try {
+      const unread = data.filter(n => n.is_read === 0 || n.is_read === false);
+      await Promise.all(
+        unread.map(n =>
+          fetch(`${global.furl}notifications/${n.id}/mark`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ is_read: true }),
+          })
+        )
+      );
+
+      // Update state
+      const updated = data.map(n => ({ ...n, is_read: true }));
+      setNotifications(updated);
+    } catch (err) {
+      console.error("Error marking notifications as read", err);
+    }
+  };
 
   const renderItem = ({ item }) => (
     <View style={[styles.notificationItem, item.is_read ? styles.read : styles.unread]}>
@@ -47,7 +76,7 @@ const WardenNotification = ({ navigation, route }) => {
 
   return (
     <View style={styles.container}>
-      {/* Header with Back Button */}
+      {/* Header */}
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
           <Text style={styles.backArrow}>←</Text>

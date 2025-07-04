@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView, ActivityIndicator, Alert } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useIsFocused } from '@react-navigation/native';
 
 const WardenDashboard = ({ route }) => {
   const navigation = useNavigation();
@@ -9,6 +9,46 @@ const WardenDashboard = ({ route }) => {
   const [wardenDetails, setWardenDetails] = useState(null);
   const [assignment, setAssignment] = useState(null);
   const [loading, setLoading] = useState(true);
+
+  const [hasUnread, setHasUnread] = useState(false);
+  const isFocused = useIsFocused();
+
+  useEffect(() => {
+    let interval;
+
+    if (isFocused) {
+      fetchUnreadStatus(); // check immediately
+
+      // Set interval to check every 30 seconds
+      interval = setInterval(() => {
+        fetchUnreadStatus();
+      }, 1000);
+    }
+
+    // Clear interval when screen is unfocused/unmounted
+    return () => clearInterval(interval);
+  }, [isFocused]);
+
+
+  const fetchUnreadStatus = async () => {
+    try {
+      const res = await fetch(`${global.furl}getnotifications`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          recipient_type: 'TrafficWarden',
+          recipient_id: warden.WardenID,
+        }),
+      });
+      const data = await res.json();
+      const unread = data.some(n => !n.is_read);
+      setHasUnread(unread);
+    } catch (err) {
+      console.error("Failed to fetch unread status", err);
+    }
+  };
+
+
 
   useEffect(() => {
     const fetchWardenAndAssignment = async () => {
@@ -72,14 +112,16 @@ const WardenDashboard = ({ route }) => {
           <Text style={styles.menuIcon}>☰</Text>
           <Text style={styles.headerText}>Welcome Back, {wardenDetails.name}</Text>
           <Text style={styles.notificationIcon}
-          onPress={() => {
-            if (warden?.WardenID) {
-              navigation.navigate('WardenNotification', { wardenId: warden.WardenID });
-            } else {
-              Alert.alert('Error', 'Warden ID is missing');
-            }
-          }}
-          >🔔</Text>
+            onPress={() => {
+              setHasUnread(false);  // reset dot
+              if (warden?.WardenID) {
+                navigation.navigate('WardenNotification', { wardenId: warden.WardenID });
+              } else {
+                Alert.alert('Error', 'Warden ID is missing');
+              }
+            }}
+          >🔔
+            {hasUnread && <Text style={styles.redDot}>●</Text>}</Text>
         </View>
 
         {/* Schedule Card */}
@@ -92,9 +134,9 @@ const WardenDashboard = ({ route }) => {
               <Text style={styles.value}>{assignment.shift_name} - {assignment.shift_time}</Text>
               <Text style={styles.label}>Duty Date</Text>
               <Text style={styles.value}>{assignment.duty_date}</Text>
-              {/* <TouchableOpacity style={styles.button}>
+              <TouchableOpacity style={styles.button}>
                 <Text style={styles.buttonText}>Duty Roster</Text>
-              </TouchableOpacity> */}
+              </TouchableOpacity>
             </>
           ) : (
             <Text style={styles.value}>No assignment found for today.</Text>
@@ -132,23 +174,25 @@ const WardenDashboard = ({ route }) => {
       {/* Bottom Navigation */}
       <View style={styles.footer}>
         <TouchableOpacity style={styles.navItem}
-        
+
         >
           <Text style={styles.navIcon}>🏠</Text>
           <Text style={styles.navText}>Home</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem}
-        onPress={() => {
-            if (warden?.WardenID) {
-              navigation.navigate('WardenNotification', { wardenId: warden.WardenID });
-            } else {
-              Alert.alert('Error', 'Warden ID is missing');
-            }
+        <TouchableOpacity
+          style={styles.navItem}
+          onPress={() => {
+            setHasUnread(false);  // reset dot
+            navigation.navigate('WardenNotification', { wardenId: warden.WardenID });
           }}
         >
-          <Text style={styles.navIcon}>🔔</Text>
+          <Text style={styles.navIcon}>
+            🔔
+            {hasUnread && <Text style={styles.redDot}>●</Text>}
+          </Text>
           <Text style={styles.navText}>Notifications</Text>
         </TouchableOpacity>
+
         <TouchableOpacity
           style={styles.navItem}
           onPress={() => navigation.navigate('WardenProfile', { warden: wardenDetails })}
@@ -201,6 +245,13 @@ const styles = StyleSheet.create({
   notificationIcon: {
     color: '#fff',
     fontSize: 24,
+  },
+  redDot: {
+    fontSize: 10,
+    color: 'red',
+    position: 'absolute',
+    top: -5,
+    right: -5
   },
   scheduleCard: {
     backgroundColor: '#ffffff',
