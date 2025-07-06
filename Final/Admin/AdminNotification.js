@@ -8,7 +8,7 @@ import {
   ActivityIndicator,
 } from 'react-native';
 
-const WardenNotification = ({ navigation, route }) => {
+const AdminNotification = ({ navigation, route }) => {
   const { wardenId } = route.params;
   const [notifications, setNotifications] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -20,7 +20,7 @@ const WardenNotification = ({ navigation, route }) => {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            recipient_type: 'TrafficWarden',
+            recipient_type: 'Admin',
             recipient_id: wardenId,
           }),
         });
@@ -85,19 +85,19 @@ const WardenNotification = ({ navigation, route }) => {
       </View>
 
       {loading ? (
-        <ActivityIndicator size="large" color="#2AB9A8" style={{ marginTop: 20 }} />
-      ) : notifications.length === 0 ? (
-        <View style={{ marginTop: 30, alignItems: 'center' }}>
-          <Text style={{ color: '#999', fontSize: 16 }}>No notifications found.</Text>
-        </View>
-      ) : (
-        <FlatList
-          data={notifications}
-          keyExtractor={(item) => item.id.toString()}
-          renderItem={renderItem}
-          contentContainerStyle={styles.listContainer}
-        />
-      )}
+  <ActivityIndicator size="large" color="#2AB9A8" style={{ marginTop: 20 }} />
+) : notifications.length === 0 ? (
+  <View style={{ marginTop: 30, alignItems: 'center' }}>
+    <Text style={{ color: '#999', fontSize: 16 }}>No notifications found.</Text>
+  </View>
+) : (
+  <FlatList
+    data={notifications}
+    keyExtractor={(item) => item.id.toString()}
+    renderItem={renderItem}
+    contentContainerStyle={styles.listContainer}
+  />
+)}
 
     </View>
   );
@@ -166,4 +166,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default WardenNotification;
+export default AdminNotification;

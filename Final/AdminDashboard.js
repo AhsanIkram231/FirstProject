@@ -1,11 +1,42 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useIsFocused } from '@react-navigation/native';
 
 const AdminDashboard = ({ route }) => {
   const navigation = useNavigation();
   const admin = route?.params?.warden;
 
+  const [hasUnread, setHasUnread] = useState(false);
+  const isFocused = useIsFocused();
+
+  useEffect(() => {
+    let interval;
+
+    if (isFocused) {
+      fetchUnreadStatus(); // check immediately
+      interval = setInterval(fetchUnreadStatus, 2000);
+    }
+
+    return () => clearInterval(interval);
+  }, [isFocused]);
+
+  const fetchUnreadStatus = async () => {
+    try {
+      const res = await fetch(`${global.furl}getnotifications`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          recipient_type: 'Admin',
+          recipient_id: admin?.id,
+        }),
+      });
+      const data = await res.json();
+      const unread = data.some(n => !n.is_read);
+      setHasUnread(unread);
+    } catch (err) {
+      console.error('Failed to fetch unread status', err);
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -13,7 +44,12 @@ const AdminDashboard = ({ route }) => {
       <View style={styles.header}>
         <Text style={styles.menuIcon}>☰</Text>
         <Text style={styles.headerText}>Welcome Back, Admin</Text>
-        <Text style={styles.notificationIcon}>🔔</Text>
+        <TouchableOpacity onPress={() => {
+          setHasUnread(false);
+          navigation.navigate('WardenNotification', { wardenId: admin?.id, recipientType: 'Admin' });
+        }}>
+          <Text style={styles.notificationIcon}>🔔{hasUnread && <Text style={styles.redDot}>●</Text>}</Text>
+        </TouchableOpacity>
       </View>
 
       {/* Profile Section */}
@@ -90,8 +126,11 @@ const AdminDashboard = ({ route }) => {
           <Text style={styles.navIcon}>🏠</Text>
           <Text style={styles.navText}>Home</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem}>
-          <Text style={styles.navIcon}>🔔</Text>
+        <TouchableOpacity style={styles.navItem} onPress={() => {
+          setHasUnread(false);
+          navigation.navigate('AdminNotification', { wardenId: admin?.id });
+        }}>
+          <Text style={styles.navIcon}>🔔{hasUnread && <Text style={styles.redDot}>●</Text>}</Text>
           <Text style={styles.navText}>Notifications</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.navItem}
@@ -133,6 +172,13 @@ const styles = StyleSheet.create({
   notificationIcon: {
     color: '#fff',
     fontSize: 24,
+  },
+  redDot: {
+    fontSize: 10,
+    color: 'red',
+    position: 'absolute',
+    top: -5,
+    right: -5,
   },
   profileSection: {
     alignItems: 'center',

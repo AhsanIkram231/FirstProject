@@ -86,6 +86,8 @@ import DutyRoster from './Final/DutyRoster';
 import Role from './Final/Role';
 import CameraUpload from './Final/CameraUpload';
 
+import AdminNotification from './Final/Admin/AdminNotification';
+
 
 import WardenSignInScreen from './Final/WardenSignINScreen';
 import WardenDashboard from './Final/WardenDashboard';
@@ -115,7 +117,7 @@ const Stack = createStackNavigator();
 
 const AppPro = () => {
 
-  var fipAdd = '192.168.100.9:4321';
+  var fipAdd = '192.168.1.23:4321';
   global.furl = `http://${fipAdd}/`
   return (
     <NavigationContainer>
@@ -326,6 +328,11 @@ const AppPro = () => {
           name="CameraUpload"
           component={CameraUpload}
           options={{ title: 'Camera Upload', headerShown: false }}
+        />
+        <Stack.Screen
+          name="AdminNotification"
+          component={AdminNotification}
+          options={{ title: 'Admin Notification', headerShown: false }}
         />
 
 
