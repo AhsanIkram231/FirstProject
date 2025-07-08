@@ -116,6 +116,11 @@ const AdminDashboard = ({ route }) => {
         >
           <Text style={styles.buttonText}>Camera Upload</Text>
         </TouchableOpacity>
+        <TouchableOpacity style={styles.buttonLarge}
+          onPress={() => navigation.navigate('SimulationList')}
+        >
+          <Text style={styles.buttonText}>Simulation List</Text>
+        </TouchableOpacity>
       </View>
 
       {/* Bottom Navigation */}

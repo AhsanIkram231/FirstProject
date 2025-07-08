@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity, TextInput, ScrollView } from 'react-native';
-import { useNavigation, useRoute } from '@react-navigation/native';
+import { useNavigation, useRoute, useIsFocused } from '@react-navigation/native';
 
 const UserDashboard = () => {
   const navigation = useNavigation();
@@ -10,6 +10,8 @@ const UserDashboard = () => {
   const [user, setUser] = useState(null);
   const [totalFine, setTotalFine] = useState(0);
   const [totalViolations, setTotalViolations] = useState(0);
+  const [hasUnread, setHasUnread] = useState(false);
+  const isFocused = useIsFocused();
 
   useEffect(() => {
     fetchUser();
@@ -19,11 +21,23 @@ const UserDashboard = () => {
     if (user?.cnic) {
       const timer = setTimeout(() => {
         fetchViolations();
-      }, 100); // Optional: 1-second delay
+      }, 100);
       return () => clearTimeout(timer);
     }
   }, [user]);
 
+  useEffect(() => {
+    let interval;
+
+    if (isFocused && user?.id) {
+      fetchUnreadStatus();
+      interval = setInterval(() => {
+        fetchUnreadStatus();
+      }, 2000);
+    }
+
+    return () => clearInterval(interval);
+  }, [isFocused, user]);
 
   const fetchUser = async () => {
     try {
@@ -63,9 +77,25 @@ const UserDashboard = () => {
     }
   };
 
+  const fetchUnreadStatus = async () => {
+    try {
+      const res = await fetch(`${global.furl}getnotifications`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          recipient_type: 'User',
+          recipient_id: user.id,
+        }),
+      });
+      const data = await res.json();
+      const unread = data.some(n => !n.is_read);
+      setHasUnread(unread);
+    } catch (err) {
+      console.error("Failed to fetch unread status", err);
+    }
+  };
 
   return (
-
     <View style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollContent}>
         <View style={styles.topHeader}>
@@ -84,20 +114,14 @@ const UserDashboard = () => {
           <Text style={styles.sectionTitle}>Summary of Violations</Text>
           <View style={styles.violationHeader}>
             <Text style={styles.label}>Total Fine</Text>
-            <Text style={styles.label}>
-              Total Violations:{' '}
-              <Text style={styles.redText}>{String(totalViolations).padStart(2, '0')}</Text>
-            </Text>
+            <Text style={styles.label}>Total Violations: <Text style={styles.redText}>{String(totalViolations).padStart(2, '0')}</Text></Text>
           </View>
           <TextInput
             style={styles.input}
             editable={false}
             value={`${Number(totalFine).toFixed(2)} PKR`}
-
           />
-
-          <Text style={styles.linkText} onPress={() => navigation.navigate('ViewChallans', { user })}
-          >View Details</Text>
+          <Text style={styles.linkText} onPress={() => navigation.navigate('ViewChallans', { user })}>View Details</Text>
         </View>
 
         <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('ViewChallans', { user })}>
@@ -116,8 +140,17 @@ const UserDashboard = () => {
           <Text style={styles.navText}>Home</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.navItem} onPress={() => navigation.navigate('UserNotification', { user })}>
-          <Text style={styles.navIcon}>🔔</Text>
+        <TouchableOpacity
+          style={styles.navItem}
+          onPress={() => {
+            setHasUnread(false);
+            navigation.navigate('UserNotification', { user });
+          }}
+        >
+          <Text style={styles.navIcon}>
+            🔔
+            {hasUnread && <Text style={{ color: 'red', fontSize: 10, position: 'absolute', top: -5, right: -5 }}>●</Text>}
+          </Text>
           <Text style={styles.navText}>Notifications</Text>
         </TouchableOpacity>
 
@@ -133,9 +166,7 @@ const UserDashboard = () => {
       </View>
     </View>
   );
-
 };
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,

@@ -32,6 +32,8 @@ import Camera from './Final/Camera'
 import ShowEmp from './Contents/Forms/Aftermid/ShowEmp'
 import Testapi from './Contents/Forms/Aftermid/Testapi'
 
+import SimulationList from './Final/SimulationList'
+import SimulationListUpload from './Final/SimulationListUpload'
 
 import AdminDashboard from './Final/AdminDashboard'
 import AdminProfile from './Final/AdminProfile'
@@ -117,8 +119,11 @@ const Stack = createStackNavigator();
 
 const AppPro = () => {
 
-  var fipAdd = '192.168.1.23:4321';
+  var fipAdd = '192.168.100.9:4321';
   global.furl = `http://${fipAdd}/`
+
+  global.simulations = []; // 🔥 global array
+
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Welcome">
@@ -127,6 +132,18 @@ const AppPro = () => {
           component={Welcome}
           options={{ headerShown: false }}
         />
+
+        <Stack.Screen
+          name="SimulationList"
+          component={SimulationList}
+          options={{ title: 'Simulation List',headerShown: false }}
+        />
+        <Stack.Screen
+          name="SimulationListUpload"
+          component={SimulationListUpload}
+          options={{ title: 'Simulation List Upload',headerShown: false }}
+        />
+
         <Stack.Screen
           name="Role"
           component={Role}

@@ -25,12 +25,12 @@ const ManageDirection = () => {
           <Text style={styles.buttonText}>Add Direction</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity
+        {/* <TouchableOpacity
           style={styles.button}
           onPress={() => navigation.navigate('DeleteDirection')}
         >
           <Text style={styles.buttonText}>Remove Direction</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
 
         <TouchableOpacity
           style={[styles.button, styles.backButton]}

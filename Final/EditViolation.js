@@ -129,12 +129,12 @@ const EditViolation = ({ route, navigation }) => {
         </View>
 
         {/* Toggle Limit */}
-        <View style={styles.inputContainer}>
+        {/* <View style={styles.inputContainer}>
           <Text style={styles.label}>
             Current sitting limit is 1. Turn OFF to allow 2 persons.
           </Text>
           <Switch value={limitEnabled} onValueChange={setLimitEnabled} />
-        </View>
+        </View> */}
 
         {/* Date Pickers (Only if limit enabled) */}
         {limitEnabled && (

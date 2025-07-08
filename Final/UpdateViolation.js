@@ -94,10 +94,10 @@ const UpdateViolation = () => {
                 >
                   <Icon name="edit" size={20} color="#e74c3c" />
                 </TouchableOpacity>
-                <Switch
+                {/* <Switch
                   value={item.status === "Active"}
                   onValueChange={() => toggleStatus(item)}
-                />
+                /> */}
               </View>
             </View>
             <Text style={styles.description}>Description: {item.description}</Text>
