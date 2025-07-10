@@ -46,12 +46,12 @@ const ManageCity = () => {
           <Text style={styles.buttonText}>Add City</Text>
         </TouchableOpacity>
 
-        {/* <TouchableOpacity
+        <TouchableOpacity
           style={styles.button}
           onPress={() => navigation.navigate('DeleteCity')}
         >
           <Text style={styles.buttonText}>Remove City</Text>
-        </TouchableOpacity> */}
+        </TouchableOpacity>
       </View>
 
       <Text style={styles.cityListHeading}>All Cities:</Text>

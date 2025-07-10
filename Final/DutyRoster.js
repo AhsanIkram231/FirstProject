@@ -105,6 +105,11 @@ const DutyRoster = () => {
           <Text style={styles.buttonText}>Assign</Text>
         </TouchableOpacity>
 
+        <TouchableOpacity style={styles.button} onPress={handleAssign}>
+          <Text style={styles.buttonText}>Manual assignment</Text>
+        </TouchableOpacity>
+        
+
         <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
           <Text style={styles.buttonText}>Back</Text>
         </TouchableOpacity>

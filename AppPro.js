@@ -114,12 +114,20 @@ import TrafficRules from './Final/User/TrafficRules';
 import ChallanDetails from './Final/User/ChallanDetails';
 
 
+
+
+import AddStolenBike from './Final/Admin/AddStolenBike';
+import ManageStolenBike from './Final/Admin/ManageStolenBike';
+import EditStolenBike from './Final/Admin/EditStolenBike';
+import NakaGraphScreen from './Final/Admin/NakaGraphScreen';
+import DistanceCheck from './Final/Admin/DistanceCheck';
+
 const Stack = createStackNavigator();
 
 
 const AppPro = () => {
-
-  var fipAdd = '192.168.100.9:4321';
+// 192.168.181.67:4321
+  var fipAdd = '192.168.94.34:4321';
   global.furl = `http://${fipAdd}/`
 
   global.simulations = []; // 🔥 global array
@@ -136,12 +144,12 @@ const AppPro = () => {
         <Stack.Screen
           name="SimulationList"
           component={SimulationList}
-          options={{ title: 'Simulation List',headerShown: false }}
+          options={{ title: 'Simulation List', headerShown: false }}
         />
         <Stack.Screen
           name="SimulationListUpload"
           component={SimulationListUpload}
-          options={{ title: 'Simulation List Upload',headerShown: false }}
+          options={{ title: 'Simulation List Upload', headerShown: false }}
         />
 
         <Stack.Screen
@@ -229,6 +237,11 @@ const AppPro = () => {
           component={DeleteDirection}
           options={{ title: 'Delete Direction', headerShown: false }}
         />
+        <Stack.Screen
+          name="DistanceCheck"
+          component={DistanceCheck}
+          options={{ title: 'Distance Check', headerShown: false }}
+        />
 
 
 
@@ -261,7 +274,7 @@ const AppPro = () => {
           component={AddCamera}
           options={{ title: 'Add Camera', headerShown: false }}
         />
-         <Stack.Screen
+        <Stack.Screen
           name="DeleteCamera"
           component={DeleteCamera}
           options={{ title: 'Delete Camera', headerShown: false }}
@@ -351,6 +364,27 @@ const AppPro = () => {
           component={AdminNotification}
           options={{ title: 'Admin Notification', headerShown: false }}
         />
+        <Stack.Screen
+          name="ManageStolenBike"
+          component={ManageStolenBike}
+          options={{ title: 'Manage Stolen Bike', headerShown: false }}
+        />
+        <Stack.Screen
+          name="AddStolenBike"
+          component={AddStolenBike}
+          options={{ title: 'Add Stolen Bike', headerShown: false }}
+        />
+        <Stack.Screen
+          name="EditStolenBike"
+          component={EditStolenBike}
+          options={{ title: 'Edit Stolen Bike', headerShown: false }}
+        />
+        <Stack.Screen
+          name="NakaGraphScreen"
+          component={NakaGraphScreen}
+          options={{ title: 'Naka Graph Screen', headerShown: false }}
+        />
+
 
 
 

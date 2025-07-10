@@ -25,12 +25,12 @@ const ManagePlace = () => {
           <Text style={styles.buttonText}>Add Place</Text>
         </TouchableOpacity>
 
-        {/* <TouchableOpacity
+        <TouchableOpacity
           style={styles.button}
           onPress={() => navigation.navigate('DeletePlace')}
         >
           <Text style={styles.buttonText}>Remove Place</Text>
-        </TouchableOpacity> */}
+        </TouchableOpacity>
 
         <TouchableOpacity
           style={[styles.button, styles.backButton]}

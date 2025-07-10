@@ -146,7 +146,7 @@ const ViolationHistory = ({ route, navigation }) => {
                 </Text>
             </View>
 
-            {/* <View style={styles.filterContainer}>
+            <View style={styles.filterContainer}>
                 <TextInput
                     placeholder="Search by Vehicle Number"
                     style={styles.searchInput}
@@ -211,7 +211,7 @@ const ViolationHistory = ({ route, navigation }) => {
                         />
                     )}
                 </View>
-            </View> */}
+            </View>
 
             {loading ? (
                 <ActivityIndicator size="large" color="#fff" />

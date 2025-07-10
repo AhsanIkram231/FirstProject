@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image,ScrollView } from 'react-native';
 import { useNavigation, useIsFocused } from '@react-navigation/native';
 
 const AdminDashboard = ({ route }) => {
@@ -77,7 +77,7 @@ const AdminDashboard = ({ route }) => {
             <Text style={styles.buttonText}>Manage  Naka</Text>
           </TouchableOpacity>
         </View>
-
+        <ScrollView>
         <TouchableOpacity style={styles.buttonLarge}
           onPress={() => navigation.navigate('DutyRoster')}
         >
@@ -121,6 +121,22 @@ const AdminDashboard = ({ route }) => {
         >
           <Text style={styles.buttonText}>Simulation List</Text>
         </TouchableOpacity>
+        <TouchableOpacity style={styles.buttonLarge}
+          onPress={() => navigation.navigate('ManageStolenBike')}
+        >
+          <Text style={styles.buttonText}>Manage StolenBike</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.buttonLarge}
+          onPress={() => navigation.navigate('NakaGraphScreen')}
+        >
+          <Text style={styles.buttonText}>Naka Graph Screen</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.buttonLarge}
+          onPress={() => navigation.navigate('DistanceCheck')}
+        >
+          <Text style={styles.buttonText}>Distance check</Text>
+        </TouchableOpacity>
+        </ScrollView>
       </View>
 
       {/* Bottom Navigation */}
